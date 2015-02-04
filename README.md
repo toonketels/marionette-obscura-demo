@@ -1,10 +1,8 @@
-ONE
----
+0.1
 
-- What
-  - plain collection and itemView
-- Benefits
-  - auto rerender on paging/sorting/filtering...
+- Plain collection and itemView
+
++ auto rerender on paging/sorting/filtering...
 
 
 
@@ -15,3 +13,15 @@ ONE
 + pagerView acts on same projection, views dont know from one another
 + modelEvents/collectionEvents very descriptive/succint
 + obscura acts just like a collection, can be passed to any view
+
+
+
+0.3
+
+- Added filterView
+
++ filterView acts on collection, views dont know from one another
++ configure with custom filterfn, projection (and default marionette
+  configs like template...)
++ filtering will update the pager (and list)
++ all reusable components
