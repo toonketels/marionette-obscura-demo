@@ -10,7 +10,7 @@ define([
 
 	'tpl!./ui/tpl/usersItemView.tpl',
 	'tpl!./ui/tpl/paginationView.tpl',
-
+	'tpl!./ui/tpl/filterView.tpl',
 
 
 	'bootstrap'
@@ -22,7 +22,8 @@ define([
 	UsersCollection,
 
 	usersItemViewTpl,
-	paginationViewTpl
+	paginationViewTpl,
+	filterViewTpl
 
 ) {
 
@@ -84,7 +85,8 @@ define([
 			'change': 'render'
 		},
 		collectionEvents: {
-			'paginated:change:page': 'updateState'
+			'paginated:change:numPages': 'updateState',
+			'paginated:change:page'    : 'updateState'
 		},
 		events: {
 			'click .prev': 'previous',
@@ -99,9 +101,49 @@ define([
 	});
 
 
+	
+	// Filter view, can filter any projection
+
+	/**
+	 * Params:
+	 *  - collection: projection to filter
+	 *  - filterFn: to pass a custom filter function
+	 *  - template: optional other template
+	 */
+	var FilterView = Marionette.ItemView.extend({
+		initialize: function(options) {
+			options = options || {};
+
+			options.filter = options.filterFn || this.defaultFilterFn;
+			this.filter    = options.filter.bind(this);
+		},
+		template: filterViewTpl,
+		events: {
+			'keyup .search': 'doFilter'
+		},
+		doFilter: function() {
+			this.updateSearchPhrase();
+
+			if (this.collection.hasFilter('username')) {
+				this.collection.refilter();
+			} else {
+				this.collection.filterBy('username', this.filter);
+			}
+		},
+		updateSearchPhrase: function() {
+			this.searchPhrase = $('.search').val();
+		},
+		defaultFilterFn: function(model) {
+			return !!model.get('username').match(this.searchPhrase);
+		}
+	});
+
+
+
 
 	// Render the views
 
+	regions.header.show(new FilterView({collection: usersProjection}));
 	regions.main.show(usersView);
 	regions.footer.show(new PagerView({collection: usersProjection}));
 
