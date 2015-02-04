@@ -1,0 +1,23 @@
+{
+  "name": "one",
+  "version": "0.0.0",
+  "authors": [
+    "Toon Ketels <toon.ketels@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "marionette": "~2.3.1",
+    "requirejs": "~2.1.15",
+    "bootstrap": "~3.3.2",
+    "requirejs-plugins": "~1.0.3",
+    "requirejs-text": "~2.0.13",
+    "requirejs-tpl-jfparadis": "*"
+  }
+}
