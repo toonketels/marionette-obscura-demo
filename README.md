@@ -25,3 +25,15 @@
   configs like template...)
 + filtering will update the pager (and list)
 + all reusable components
+
+
+
+0.4
+
+- Swapped itemView for SelectItemView
+
++ select state is just kept on the model (should be clientside attr)
++ existing collectionView did not have to change for that view to be made `selectable`
++ attr to set on model is configurable (as well as template...)
++ a new reusable component
++ can be initialized in correct state (just point it to an existing attribute)

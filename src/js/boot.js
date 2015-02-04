@@ -11,6 +11,7 @@ define([
 	'tpl!./ui/tpl/usersItemView.tpl',
 	'tpl!./ui/tpl/paginationView.tpl',
 	'tpl!./ui/tpl/filterView.tpl',
+	'tpl!./ui/tpl/selectItemView.tpl',
 
 
 	'bootstrap'
@@ -23,7 +24,8 @@ define([
 
 	usersItemViewTpl,
 	paginationViewTpl,
-	filterViewTpl
+	filterViewTpl,
+	selectItemViewTpl
 
 ) {
 
@@ -47,14 +49,50 @@ define([
 
 
 
-	// Create views
+	// Default user view, no longer used
 
-	var userItemView = Marionette.ItemView.extend({
+	var UserItemView = Marionette.ItemView.extend({
 		tagName : 'li',
 		template: usersItemViewTpl
 	});
 
-	var usersView = new Marionette.CollectionView({tagName: 'ul', collection: usersProjection, childView: userItemView });
+
+
+	// SelectView
+
+	var SelectItemView = Marionette.ItemView.extend({
+		initialize: function(options) {
+			options = options || {};
+
+			if (!options.selectAttribute) { throw new Error('SelectItemView expects a selectAttribute passed'); }
+
+			this.selectAttribute = options.selectAttribute;
+		},
+		tagName : 'li',
+		template: selectItemViewTpl,
+		events: {
+			'click': 'select',
+		},
+		select: function() {
+			this.model.set(this.selectAttribute, !this.model.get(this.selectAttribute));
+		},
+		templateHelpers: function() {
+			return {
+				selected: this.model.get(this.selectAttribute)
+			}
+		},
+		modelEvents: {
+			'change': 'render'
+		}
+	});
+
+
+
+
+	var usersView = new Marionette.CollectionView({tagName         : 'ul',
+		                                           collection      : usersProjection,
+		                                           childView       : SelectItemView,
+		                                           childViewOptions: {selectAttribute: 'selectedinusers'} });
 
 
 
@@ -137,6 +175,9 @@ define([
 			return !!model.get('username').match(this.searchPhrase);
 		}
 	});
+
+
+	//
 
 
 
