@@ -35,9 +35,10 @@ define([
 	var regions = new Marionette.LayoutView({
 		el: 'body',
 		regions: {
-			header: '.header',
-			main  : '.main',
-			footer: '.footer'
+			header : '.header',
+			main   : '.main',
+			sidebar: '.sidebar',
+			footer : '.footer'
 		}
 	});
 
@@ -177,7 +178,16 @@ define([
 	});
 
 
-	//
+	
+	// Different view, reusing components, state kept in sync
+
+	var selectedProjection = new Projection(users).filterBy('selected', { 'selectedinusers': true} );
+	selectedProjection.on('all', function() { console.log(arguments) });
+	var selectedView = new Marionette.CollectionView({tagName         : 'ul',
+		                                              collection      : selectedProjection,
+		                                           	  childView       : SelectItemView,
+		                                              childViewOptions: {selectAttribute: 'selectedinusers'} });
+
 
 
 
@@ -186,6 +196,7 @@ define([
 
 	regions.header.show(new FilterView({collection: usersProjection}));
 	regions.main.show(usersView);
+	regions.sidebar.show(selectedView);
 	regions.footer.show(new PagerView({collection: usersProjection}));
 
 
