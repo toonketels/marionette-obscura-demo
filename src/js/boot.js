@@ -12,6 +12,7 @@ define([
 	'tpl!./ui/tpl/paginationView.tpl',
 	'tpl!./ui/tpl/filterView.tpl',
 	'tpl!./ui/tpl/selectItemView.tpl',
+	'tpl!./ui/tpl/emptyView.tpl',
 
 
 	'bootstrap'
@@ -25,7 +26,8 @@ define([
 	usersItemViewTpl,
 	paginationViewTpl,
 	filterViewTpl,
-	selectItemViewTpl
+	selectItemViewTpl,
+	emptyViewTpl
 
 ) {
 
@@ -182,11 +184,12 @@ define([
 	// Different view, reusing components, state kept in sync
 
 	var selectedProjection = new Projection(users).filterBy('selected', { 'selectedinusers': true} );
-	selectedProjection.on('all', function() { console.log(arguments) });
 	var selectedView = new Marionette.CollectionView({tagName         : 'ul',
 		                                              collection      : selectedProjection,
 		                                           	  childView       : SelectItemView,
-		                                              childViewOptions: {selectAttribute: 'selectedinusers'} });
+		                                              childViewOptions: {selectAttribute: 'selectedinusers'},
+		                                              emptyViewOptions: {template: emptyViewTpl},
+		                                              emptyView       : Marionette.ItemView });
 
 
 
@@ -208,8 +211,9 @@ define([
 
 
 	window.x = {
-		users          : users,
-		usersProjection: usersProjection
+		users             : users,
+		usersProjection   : usersProjection,
+		selectedProjection: selectedProjection
 	}
 
 });

@@ -37,3 +37,19 @@
 + attr to set on model is configurable (as well as template...)
 + a new reusable component
 + can be initialized in correct state (just point it to an existing attribute)
+
+
+
+0.5
+
+- Views in sync via shared collections/projections
+
++ new projection based on attr set by other view on same collection
++ reused the same views to display a new one
++ marionette CollectionView's EmptyView to auto display "empty" message
++ new views also uses SelectItemView, thereby updating the main view
++ added new region to display the new view
+
+
+
+@TODO: emptyCollectionView demo
