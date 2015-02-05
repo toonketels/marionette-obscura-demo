@@ -52,4 +52,9 @@
 
 
 
-@TODO: emptyCollectionView demo
+0.6
+
+- Broken up into multiple files
+
++ Only generic views in own files
++ Boot acts as some kind of controller
