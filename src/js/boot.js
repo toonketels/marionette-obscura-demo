@@ -91,7 +91,7 @@ define([
     // Render the views
 
     regions.header.show(filterView);
-    regions.main.show(allUsersView);
+    regions.main.show(usersView);
     regions.sidebar.show(selectedUsersView);
     regions.footer.show(pagerView);
 
